@@ -2258,6 +2258,34 @@ set_device_tags()
     log_info "[v] tags set."   
 }
 
+list_supported_distros()
+{
+    # Keep this summary aligned with verify_supported_distros.
+    cat <<'EOF'
+Supported Linux distributions (based on this installer's OS support checks):
+
+Distribution (os-release ID) | x86_64 versions | ARM64 versions
+Debian (debian) | 9-13 | 11-13
+Ubuntu (ubuntu) | 16.04, 18.04, 20.04, 22.04, 24.04, 26.04 | 20.04, 22.04, 24.04, 26.04
+Red Hat Enterprise Linux (rhel) | 7.2+ (7.x), 8.x, 9.x, 10.x | 8.x, 9.x, 10.x
+Oracle Linux (ol) | 7.2+ (7.x), 8.x, 9.x, 10.x | 8.x, 9.x, 10.x
+CentOS (centos) | 7.2+ (7.x), 8.x | Not supported
+SUSE Linux Enterprise (sles, sle-hpc, sles_sap) | 12.x, 15.x, 16.x | 15.x, 16.x
+Amazon Linux (amzn) | 2, 2023 | 2, 2023
+Fedora (fedora) | 33-44 | 40-44
+AlmaLinux (almalinux) | 8.4+ (8.x), 9.2+ (9.x), 10.x | 8.4+ (8.x), 9.2+ (9.x), 10.x
+Rocky Linux (rocky) | 8.7+ (8.x), 9.2+ (9.x), 10.x | 8.7+ (8.x), 9.2+ (9.x), 10.x
+CBL-Mariner (mariner) | 2 | Not supported
+Azure Linux (azurelinux) | 3 | 3
+
+This list does not check the current host's compatibility. Kernel, system
+requirements, and release/channel availability also apply. Use --pre-req to
+check the current host's minimum requirements.
+For current product support requirements, see:
+https://learn.microsoft.com/en-us/defender-endpoint/microsoft-defender-endpoint-linux#system-requirements
+EOF
+}
+
 usage()
 {
     echo "mde_installer.sh v$SCRIPT_VERSION"
@@ -2280,6 +2308,7 @@ usage()
     echo "  -n|--no                   disable the default assume-yes behavior for prompts"
     echo "  -s|--verbose              enable verbose output"
     echo "  -v|--version              print the script version"
+    echo "  --list-supported-distros  list supported Linux distributions and versions, then exit"
     echo "  -d|--debug                enable debug mode"
     echo "  --log-path <PATH>         also log output to PATH"
     echo "  --http-proxy <URL>        set http proxy"
@@ -2378,6 +2407,10 @@ do
             ;;
         -h|--help)
             usage "basename $0" >&2
+            exit 0
+            ;;
+        --list-supported-distros)
+            list_supported_distros
             exit 0
             ;;
         -y|--yes)

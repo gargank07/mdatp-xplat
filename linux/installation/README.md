@@ -35,6 +35,7 @@ Options:
  -n|--no              remove assume yes sign
  -s|--verbose         verbose output
  -v|--version         print out script version
+ --list-supported-distros  list supported Linux distributions and versions, then exit
  -d|--debug           set debug mode
  --log-path <PATH>    also log output to PATH
  --http-proxy <URL>   set http proxy
@@ -47,6 +48,22 @@ Options:
 ```
 
 > [!NOTE] ARM64 release is only available on insiders-slow channel
+
+### List supported distributions
+
+```bash
+./mde_installer.sh --list-supported-distros
+```
+
+This informational option lists distribution names, OS IDs, and versions for
+x86_64 and ARM64 based on the installer's existing OS support checks. It does not
+require root privileges, inspect the current host, or install anything. Like
+`--help`, it prints the list and exits when the option is encountered.
+
+Kernel, system requirements, and release/channel availability still apply; use
+`--pre-req` to check the current host's minimum requirements. See the
+[product system requirements](https://learn.microsoft.com/en-us/defender-endpoint/microsoft-defender-endpoint-linux#system-requirements)
+for current support information.
 
 ## Sample use case
 
