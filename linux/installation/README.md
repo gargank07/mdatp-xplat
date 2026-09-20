@@ -35,6 +35,7 @@ Options:
  -n|--no              remove assume yes sign
  -s|--verbose         verbose output
  -v|--version         print out script version
+ --list-distros      display the built-in distro support list by architecture and exit
  -d|--debug           set debug mode
  --log-path <PATH>    also log output to PATH
  --http-proxy <URL>   set http proxy
@@ -47,6 +48,16 @@ Options:
 ```
 
 > [!NOTE] ARM64 release is only available on insiders-slow channel
+
+## Display distro support
+
+```bash
+./mde_installer.sh --list-distros
+```
+
+Lists the distributions and versions recorded in the script's OS support checks, with separate x86_64 and ARM64 columns. This standalone informational option does not require root, network access, or MDE to be installed. Like `--help`, it prints and exits when encountered without running installation or prerequisite checks; use it separately from operational options.
+
+The list is built into the script, not fetched live. Repository mappings do not necessarily indicate official support, and kernel, system requirements, and channel availability still apply. Consult the [current system requirements](https://learn.microsoft.com/en-us/defender-endpoint/microsoft-defender-endpoint-linux#system-requirements) for the latest product support policy. To check this machine's requirements instead, use `--pre-req`.
 
 ## Sample use case
 

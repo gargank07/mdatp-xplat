@@ -596,6 +596,33 @@ verify_ebpf_support()
     return $result
 }
 
+# Keep this display aligned with the OS rules in verify_supported_distros.
+list_supported_distros()
+{
+    echo "Distro support recorded in mde_installer.sh v$SCRIPT_VERSION"
+    echo
+    printf '%-36s %-44s %s\n' "Distribution (os-release ID)" "x86_64 versions" "ARM64 versions"
+    printf '%-36s %-44s %s\n' \
+        "Debian (debian)" "9-13" "11-13" \
+        "Ubuntu (ubuntu)" "16.04, 18.04, 20.04, 22.04, 24.04, 26.04" "20.04, 22.04, 24.04, 26.04" \
+        "Red Hat Enterprise Linux (rhel)" "7.2+ (7.x), 8.x, 9.x, 10.x" "8.x, 9.x, 10.x" \
+        "Oracle Linux (ol)" "7.2+ (7.x), 8.x, 9.x, 10.x" "8.x, 9.x, 10.x" \
+        "CentOS (centos)" "7.2+ (7.x), 8.x" "Not supported" \
+        "SUSE (sles, sle-hpc, sles_sap)" "12.x, 15.x, 16.x" "15.x, 16.x" \
+        "Amazon Linux (amzn)" "2, 2023" "2, 2023" \
+        "Fedora (fedora)" "33-44" "40-44" \
+        "AlmaLinux (almalinux)" "8.4+ (8.x), 9.2+ (9.x), 10.x" "8.4+ (8.x), 9.2+ (9.x), 10.x" \
+        "Rocky Linux (rocky)" "8.7+ (8.x), 9.2+ (9.x), 10.x" "8.7+ (8.x), 9.2+ (9.x), 10.x" \
+        "CBL-Mariner (mariner)" "2" "Not supported" \
+        "Azure Linux (azurelinux)" "3" "3"
+    echo
+    echo "This is the script's built-in OS support list, not a live support lookup."
+    echo "Repository mappings alone do not imply official distro support."
+    echo "Kernel, system requirements and channel availability must also be satisfied."
+    echo "Use --pre-req to check this machine's requirements without installing."
+    echo "See: https://learn.microsoft.com/en-us/defender-endpoint/microsoft-defender-endpoint-linux#system-requirements"
+}
+
 #Non blocking
 verify_supported_distros()
 {
@@ -2280,6 +2307,7 @@ usage()
     echo "  -n|--no                   disable the default assume-yes behavior for prompts"
     echo "  -s|--verbose              enable verbose output"
     echo "  -v|--version              print the script version"
+    echo "  --list-distros            display the built-in distro support list by architecture and exit"
     echo "  -d|--debug                enable debug mode"
     echo "  --log-path <PATH>         also log output to PATH"
     echo "  --http-proxy <URL>        set http proxy"
@@ -2375,6 +2403,10 @@ do
             INSTALL_MODE='c'
             verify_privileges "clean"
             shift 1
+            ;;
+        --list-distros)
+            list_supported_distros
+            exit 0
             ;;
         -h|--help)
             usage "basename $0" >&2
